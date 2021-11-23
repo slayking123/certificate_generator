@@ -2,13 +2,13 @@
     margin: 0;
     padding: 0;
 }
-
+/* vhghbh */
 body{
     background-color: #E6CCA9;
 }
 
 .hover-effect:hover{
-    font-weight: bold;
+    font-weight: bolder;
     cursor: pointer;
 }
 
