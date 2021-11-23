@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #d1{
+             /* height: 200px;
+             width: 250px; 
+             overflow: hidden; */
+             max-width: 100vw;
+        }
+        img{
+            width: 45%;
+            margin:2.5%;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function on_click(arr)
+        {
+            console.log(arr);
+            localStorage.setItem('id',arr['id'])
+            localStorage.setItem('name',arr['name'])
+            location.href='./form.html'
+        }
+      async  function data_fetch()
+        {
+            const options={
+                     method: 'GET',
+                    //  headers: {
+                    //    'Content-Type': 'application/json'
+                    //  },
+                    //  body: JSON.stringify(
+                    //      data)
+                 };
+                 var url='http://localhost:4000/template';
+                 var res=await fetch( url , options);
+                 var f=await res.json();
+                 const d1=document.querySelector('#d1')
+                 for(let i=0;i<f.length;i++)
+                 {
+                    var Id=(f[i]['id']);
+                 var img_url='http://localhost/day2/image.php?id='+Id;
+                 const img=document.createElement('img')
+                //  img.setAttribute('onclick',`()=>{
+                //     return on_click(f[i])
+                //  }`)
+                 img.src=img_url;
+                img.onclick=(()=>{
+                    return on_click(f[i])
+                })
+                 d1.appendChild(img)
+                 }
+                //  var Id=(f[0]['id']);
+                //  var img_url='http://localhost/day2/image.php?id='+Id;
+                //  document.getElementById('img').src =img_url
+        }
+        data_fetch();
+    </script>
+    <div id="d1">
+    </div>
+</body>
+</html>
