@@ -29,9 +29,6 @@
   </div>
     <div id="preview">
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-
     <script>
       async function getdata()
         {
@@ -41,103 +38,41 @@
             }).then(msg=>data=msg)
             let preview=document.querySelector('#preview')
             console.log(data)
-            for(let i=0;i<data.length;i++)
-            {
-                const div=document.createElement('div')
-                div.setAttribute('class','d1')
-                div.setAttribute('id','c-'+i)
-                div.onclick=(()=>{
-                    return convert_pdf('c-'+i)
-                })
-                let hr=document.createElement('div')
-                // hr.setAttribute('size','10px')
-                hr.setAttribute('class','hr1')
-                div.innerHTML=` 
-                <div class="d2">
-                <div class="d3">
-                    <img class="m1" src="https://www.rcciit.org/images/logo.png" alt="">
-                    <span  class="s1" style="font-weight:bold">Certificate of participation</span>
-                </div>
-                <!-- <img class="m1" src="https://www.rcciit.org/images/logo.png" alt="">
-                <span  class="s1" style="font-weight:bold">Certificate of participation</span> -->
-                   <br><br>
-                   <span style="font-size:25px"><i>This is to certify that</i></span>
-                   <br><br>
-                   <span style="font-size:30px"><b>${data[i]["studentname"]}</b></span><br/><br/>
-                   <span style="font-size:25px"><i>has participated in</i></span> <br/><br/>
-                   <span style="font-size:30px">${data[i]["certificatename"]}</span> <br/><br/>
-                   <span style="font-size:20px">of ${data[i]["branch"]}</span> <br/><br/><br/><br/>
-                   <span style="font-size:25px"><i>dated</i></span><br>
-                   
-                  <span style="font-size:30px">20/07/2021</span>
-            </div> `
-            preview.appendChild(div)
-            preview.appendChild(hr)
-            }  
+            for (let i = 0; i < data.length; i++) {
+              var a=document.createElement('a');
+              a.setAttribute("id","a-"+i)
+              var can=document.createElement('canvas')
+              can.setAttribute('id','can-'+i)
+              can.setAttribute('height','450px')
+              can.setAttribute('width','600px')
+              a.appendChild(can);
+              var canvas=document.getElementById('can-'+i)
+        var image=new Image()
+        image.src="../Images/template.png"
+        var ctx=canvas.getContext("2d")
+        image.onload=(function()
+        {
+          ctx.drawImage(image,0,0,canvas.width,canvas.height)
+            ctx.font="36px BeVietnam"
+            ctx.fillStyle="yellow"
+            ctx.fillText(data[i]['studentname'],180,230)
+            ctx.font="20px BeVietnam"
+            ctx.fillStyle="yellow"
+            ctx.fillText(data[i]['branch'],360,335)
+            ctx.font="18px BeVietnam"
+            ctx.fillStyle="yellow"
+            ctx.fillText(data[i]['Certifiatenme'],380,278.3)
+        })
+        var btn=document.getElementById('a-'+i)
+        btn.addEventListener("click",function()
+        {
+          btn.href=canvas.toDataURL('image/jpeg')
+          btn.download='certificate-'+data[i]['name']
+        })
+        preview.appendChild(a);
+            }
         }
-//         function pdf(id)
-//         {
-//             console.log(id);
-//             var cid='#'+id
-//             var doc = new jsPDF();          
-// var elementHandler = {
-//   cid: function (element, renderer) {
-//     return true;
-//   }
-// };
-// var source = window.document.getElementsByTagName("body")[0];
-// doc.fromHTML(
-//     source,
-//     15,
-//     15,
-//     {
-//       'width': 180,'elementHandlers': elementHandler
-//     });
-
-// doc.output("dataurlnewwindow");
-//         }
         getdata();
-    </script>
-    <script src="../js/jspdf.debug.js"></script>
-    <script src="../js/html2canvas.min.js"></script>
-    <script src="../js/html2pdf.min.js"></script>
-    <script>
-
-      const options = {
-        margin: 7 -5,
-        filename: 'invoice.pdf',
-        image: { 
-          type: 'jpeg', 
-          quality: 500
-        },
-        html2canvas: { 
-          scale: 1 
-        },
-        jsPDF: { 
-          unit: 'in', 
-          format: 'letter', 
-          orientation: 'portrait' 
-        }
-      }
-      
-      function convert_pdf(id){
-        // e.preventDefault();
-        const element = document.getElementById(id);
-        html2pdf().from(element).set(options).save();
-      };
-  
-  
-      function printDiv(divName) {
-       var printContents = document.getElementById(divName).innerHTML;
-       var originalContents = document.body.innerHTML;
-  
-       document.body.innerHTML = printContents;
-  
-       window.print();
-  
-       document.body.innerHTML = originalContents;
-  }
-      </script>
-  
+    </script> 
 </body>
 </html>

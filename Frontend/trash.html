@@ -25,12 +25,18 @@
         {
           drawimage();
         })
-        function drawimage()
+        function drawimage(name,branch,Certifiatenme)
         {
             ctx.drawImage(image,0,0,canvas.width,canvas.height)
             ctx.font="36px BeVietnam"
             ctx.fillStyle="yellow"
-            ctx.fillText("sourav sahauwala",180,230)
+            ctx.fillText(name,180,230)
+            ctx.font="20px BeVietnam"
+            ctx.fillStyle="yellow"
+            ctx.fillText(branch,360,335)
+            ctx.font="18px BeVietnam"
+            ctx.fillStyle="yellow"
+            ctx.fillText(Certifiatenme,380,278.3)
         }
         bt1.addEventListener("click",function()
         {
