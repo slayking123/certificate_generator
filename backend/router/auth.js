@@ -1,10 +1,10 @@
 const express=require('express');
 const app=express.Router();
 const sql=require('../database');
-app.get('/:email',function(req,res)
+app.get('/:slno',function(req,res)
 {
-    var email=req.params.email;
-    var query="SELECT * FROM `certificate` WHERE studentemail='"+email+"'";
+    var slno=req.params.slno;
+    var query="SELECT * FROM `certificate` WHERE slno="+slno;
     sql.query(query,function(error,row,field)
         {
             if(error) throw error;

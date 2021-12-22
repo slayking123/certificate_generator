@@ -4,6 +4,7 @@ const adminroute= require('./router/apiadmincheck');
 const transroute=require('./router/transaction')
 const generateroute=require('./router/generator')
 const student=require('./router/student')
+const auth=require('./router/auth')
 app.use(
     express.urlencoded({
         extended:true
@@ -26,4 +27,5 @@ app.use('/admin',adminroute)
 app.use('/trans',transroute)
 app.use('/generate',generateroute)
 app.use('/student',student)
+app.use('/auth',auth)
 app.listen(4000);

@@ -67,16 +67,6 @@
       .b1{
         padding: 5px 30px;
         font-size: 20px;
-        margin-right: 150px;
-        border-radius: 12px;
-        color: whitesmoke;
-        background-color: black;
-        border: 2px solid black;
-      }
-        .b2{
-        padding: 5px 30px;
-        font-size: 20px;
-        /* margin-right: 150px; */
         border-radius: 12px;
         color: whitesmoke;
         background-color: black;
@@ -94,7 +84,6 @@
     <div id="preview"></div>
     <footer>
       <button class="b1" onclick="download()">download</button>
-      <button class="b2" onclick="emaail()" >mail</button>
     </footer>
     <script>
       const { PDFDocument, rgb, degrees } = PDFLib;
@@ -140,7 +129,7 @@
       async function download() {
         var data;
         await fetch(
-          "http://localhost:4000/generate/" + localStorage.getItem("id")
+          "http://localhost:4000/student/email" + localStorage.getItem("email")
         )
           .then((res) => {
             return res.json();
@@ -157,7 +146,7 @@
       async function preview() {
         var data;
         await fetch(
-          "http://localhost:4000/generate/" + localStorage.getItem("id")
+          "http://localhost:4000/student/" + localStorage.getItem("email")
         )
           .then((res) => {
             return res.json();
@@ -165,10 +154,11 @@
           .then((msg) => (data = msg));
         let preview = document.querySelector("#preview");
         // console.log(data);
+         if(typeof(data)==="object") alert("bhdwe certificate nii hai!!!!");
         for (let i = 0; i < data.length; i++) {
          let div=document.createElement("div")
          div.setAttribute("class",'img')
-         div.innerHTML=`<img src="http://localhost/day2/image.php?id=${localStorage.getItem("id")}" alt="">
+         div.innerHTML=`<img src="http://localhost/day2/image.php?id=${data[i]["id"]}" alt="">
     <h1 class="name">${data[i]["studentname"]}</h1>
     <h3 class="branch">${data[i]["branch"]}</h3>`
     preview.appendChild(div)

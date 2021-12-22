@@ -1,48 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        @font-face {
-            font-family: BeVietnam;
-            src: url(./Font/BeVietnamPro-BoldItalic.ttf);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @font-face {
+      font-family: DMSerifDisplay-Regular;
+      src: url(./Font/DMSerifDisplay-Regular.ttf);
+    }
+    .img{
+      width: 45%;
+      overflow: hidden;
+      position: relative;
+      margin: 2.5%;
+    }
+    .img img{
+      width: 100%;
+    }
+    .name{
+      top: 47%;
+      left: 8%;
+      position: absolute;
+      font-family:  DMSerifDisplay-Regular;
+      font-size: 160%;
+    }
+    .branch{
+      top: 70%;
+      left: 7%;
+      position: absolute;
+      font-family:  DMSerifDisplay-Regular;
+      font-size: 130%;
+    }
+  </style>
 </head>
 <body>
-    <a id="bt1">download</a>
-    <canvas id="canvas" height="450px" width="600px">
-    </canvas>
-    <script>
-        const canvas=document.getElementById("canvas")
-        const image=new Image()
-        image.src="./Images/template.png"
-        const ctx=canvas.getContext("2d")
-        image.onload=(function()
-        {
-          drawimage();
-        })
-        function drawimage(name,branch,Certifiatenme)
-        {
-            ctx.drawImage(image,0,0,canvas.width,canvas.height)
-            ctx.font="36px BeVietnam"
-            ctx.fillStyle="yellow"
-            ctx.fillText(name,180,230)
-            ctx.font="20px BeVietnam"
-            ctx.fillStyle="yellow"
-            ctx.fillText(branch,360,335)
-            ctx.font="18px BeVietnam"
-            ctx.fillStyle="yellow"
-            ctx.fillText(Certifiatenme,380,278.3)
-        }
-        bt1.addEventListener("click",function()
-        {
-            bt1.href=canvas.toDataURL("image/jpeg")
-            bt1.download="sample"
-        })
-    </script>
+  <div class="img">
+    <img src="http://localhost/day2/image.php?id=r1" alt="">
+    <h1 class="name">Jungli kumar gupta</h1>
+    <h3 class="branch">Electrical engineering</h3>
+  </div>
 </body>
 </html>
