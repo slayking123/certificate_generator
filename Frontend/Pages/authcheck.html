@@ -82,77 +82,11 @@
       <h1>This is your preview!!!!</h1>
     </div>
     <div id="preview"></div>
-    <footer>
-      <button class="b1" onclick="download()">download</button>
-    </footer>
-    <script>
-      const { PDFDocument, rgb, degrees } = PDFLib;
-      const generatePDF = async (name, branch,slno) => {
-        const existingPdfBytes = await fetch("../Images/template.pdf").then(
-          (res) => res.arrayBuffer()
-        );
-        const pdfDoc = await PDFDocument.load(existingPdfBytes);
-        pdfDoc.registerFontkit(fontkit);
-        const fontBytes = await fetch("../Font/DMSerifDisplay-Regular.ttf").then(
-          (res) => res.arrayBuffer()
-        );
-        const SanChezFont = await pdfDoc.embedFont(fontBytes);
-
-        const pages = pdfDoc.getPages();
-        const firstPage = pages[0];
-
-        firstPage.drawText(name, {
-          x: 60,
-          y: 275,
-          size: 58,
-          font: SanChezFont,
-          color: rgb(0, 0, 0),
-        });
-        firstPage.drawText(branch, {
-          x: 60,
-          y: 135,
-          size: 25,
-          font: SanChezFont,
-          color: rgb(0, 0, 0),
-        });
-        firstPage.drawText(slno.toString(), {
-          x: 30,
-          y: 20,
-          size: 10,
-          font: SanChezFont,
-          color: rgb(0, 0, 0),
-        });
-        const pdfBytes = await pdfDoc.save();
-        console.log("Done creating");
-
-        var file = new File([pdfBytes], name+"-"+localStorage.getItem("id")+".pdf", {
-          type: "application/pdf;charset=utf-8",
-        });
-        saveAs(file);
-      };
-    </script>
-    <script>
-      async function download() {
-        var data;
-        await fetch(
-          "http://localhost:4000/student/" + localStorage.getItem("email")
-        )
-          .then((res) => {
-            return res.json();
-          })
-          .then((msg) => (data = msg));
-        let preview = document.querySelector("#preview");
-        console.log(data);
-        for (let i = 0; i < data.length; i++) {
-          generatePDF(data[i]["studentname"],data[i]["branch"],data[i]["slno"])
-        }
-        }
-    </script>
     <script>
       async function preview() {
         var data;
         await fetch(
-          "http://localhost:4000/student/" + localStorage.getItem("email")
+          "http://localhost:4000/auth/" + localStorage.getItem("auth")
         )
           .then((res) => {
             return res.json();

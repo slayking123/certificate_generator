@@ -5,6 +5,7 @@ const transroute=require('./router/transaction')
 const generateroute=require('./router/generator')
 const student=require('./router/student')
 const auth=require('./router/auth')
+const mail=require('./router/mail')
 app.use(
     express.urlencoded({
         extended:true
@@ -28,4 +29,5 @@ app.use('/trans',transroute)
 app.use('/generate',generateroute)
 app.use('/student',student)
 app.use('/auth',auth)
+app.use('/mail',mail)
 app.listen(4000);

@@ -94,11 +94,11 @@
     <div id="preview"></div>
     <footer>
       <button class="b1" onclick="download()">download</button>
-      <button class="b2" onclick="emaail()" >mail</button>
+      <button class="b2" onclick="mail()" >mail</button>
     </footer>
     <script>
       const { PDFDocument, rgb, degrees } = PDFLib;
-      const generatePDF = async (name, branch) => {
+      const generatePDF = async (name, branch,slno) => {
         const existingPdfBytes = await fetch("../Images/template.pdf").then(
           (res) => res.arrayBuffer()
         );
@@ -126,7 +126,13 @@
           font: SanChezFont,
           color: rgb(0, 0, 0),
         });
-
+        firstPage.drawText(slno.toString(), {
+          x: 30,
+          y: 20,
+          size: 10,
+          font: SanChezFont,
+          color: rgb(0, 0, 0),
+        });
         const pdfBytes = await pdfDoc.save();
         console.log("Done creating");
 
@@ -135,6 +141,74 @@
         });
         saveAs(file);
       };
+      const returnPDF = async (name, branch,slno) => {
+        const existingPdfBytes = await fetch("../Images/template.pdf").then(
+          (res) => res.arrayBuffer()
+        );
+        const pdfDoc = await PDFDocument.load(existingPdfBytes);
+        pdfDoc.registerFontkit(fontkit);
+        const fontBytes = await fetch("../Font/DMSerifDisplay-Regular.ttf").then(
+          (res) => res.arrayBuffer()
+        );
+        const SanChezFont = await pdfDoc.embedFont(fontBytes);
+
+        const pages = pdfDoc.getPages();
+        const firstPage = pages[0];
+
+        firstPage.drawText(name, {
+          x: 60,
+          y: 275,
+          size: 58,
+          font: SanChezFont,
+          color: rgb(0, 0, 0),
+        });
+        firstPage.drawText(branch, {
+          x: 60,
+          y: 135,
+          size: 25,
+          font: SanChezFont,
+          color: rgb(0, 0, 0),
+        });
+        firstPage.drawText(slno.toString(), {
+          x: 30,
+          y: 20,
+          size: 10,
+          font: SanChezFont,
+          color: rgb(0, 0, 0),
+        });
+        const pdfBytes = await pdfDoc.save();
+        console.log("Done creating");
+
+        var file = new File([pdfBytes], name+"-"+localStorage.getItem("id")+".pdf", {
+          type: "application/pdf;charset=utf-8",
+        });
+        return(file);
+      };
+      async function mail(){
+        var data;
+        await fetch(
+          "http://localhost:4000/generate/" + localStorage.getItem("id")
+        )
+          .then((res) => {
+            return res.json();
+          })
+          .then((msg) => (data = msg));
+        let preview = document.querySelector("#preview");
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+          var pdf=await returnPDF(data[i]["studentname"],data[i]["branch"],data[i]["slno"])
+          let url2='http://localhost:4000/mail';
+                 let formdata=new FormData()
+                 formdata.append('email',data[i]["studentemail"])
+                 formdata.append('cname',data[i]["certificatename"])
+                 formdata.append('certificate',pdf)
+                // console.log(xl[0])
+                 fetch(url2,{
+                     method:'POST',
+                     body:formdata
+                 }).catch(console.error)
+        }
+      }
     </script>
     <script>
       async function download() {
@@ -149,7 +223,7 @@
         let preview = document.querySelector("#preview");
         console.log(data);
         for (let i = 0; i < data.length; i++) {
-          generatePDF(data[i]["studentname"],data[i]["branch"])
+          generatePDF(data[i]["studentname"],data[i]["branch"],data[i]["slno"])
         }
         }
     </script>
@@ -164,7 +238,7 @@
           })
           .then((msg) => (data = msg));
         let preview = document.querySelector("#preview");
-        // console.log(data);
+         console.log(data);
         for (let i = 0; i < data.length; i++) {
          let div=document.createElement("div")
          div.setAttribute("class",'img')

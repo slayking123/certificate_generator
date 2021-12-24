@@ -41,7 +41,7 @@ res.json(data)
 app.get('/:id',function(req,res)
 {
     var id=req.params.id;
-    var q="SELECT studentname,branch,certificatename FROM `certificate` WHERE id='"+id+"'";
+    var q="SELECT * FROM `certificate` WHERE id='"+id+"'";
     sql.query(q,(err,row,field)=>{
         if(!err){
             res.send(row);
